@@ -1,9 +1,48 @@
-﻿namespace prueba_GestionBD;
+﻿using System.Text;
+using System.Data.SqlClient;
+
+namespace prueba_GestionBD;
 
 class Program
 {
+    
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        // Establece la codificación UTF-8 como la codificación predeterminada para todas las operaciones de entrada y salida
+        Console.InputEncoding = Encoding.UTF8;
+        Console.OutputEncoding = Encoding.UTF8;
+
+        var conexionBD = new ConexionBD();
+        
+
+        try
+        {
+            string Query = "SELECT * FROM clientesCuenta";
+            var cmd = new SqlCommand(Query, conexionBD.AbrirConexion());
+
+            using SqlDataReader lector = cmd.ExecuteReader();
+
+            if (lector.HasRows)
+            {
+                while (lector.Read())
+                {
+                    
+                    Console.WriteLine($"ID: {lector["id"]} es: {lector["nombres"]}");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al mostrar los datos: {ex}");
+        }
+        finally
+        {
+            conexionBD.CerrarConexion();
+        }
+
+
+        
     }
+
+
 }
