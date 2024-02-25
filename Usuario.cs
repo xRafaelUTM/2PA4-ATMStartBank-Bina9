@@ -1,5 +1,6 @@
 using System.Text;
 using System.Data.SqlClient;
+using System.Runtime.Serialization;
 
 namespace prueba_GestionBD;
 
@@ -47,10 +48,39 @@ public class Usuario
     public static Usuario? CrearUsuario()
     {
         var conexionBD = new ConexionBD();
+        int id;
+        
+        while (true)
+        {
+            Console.Clear();
 
-        Console.WriteLine($"Ingrese el id del usuario:");
-        int id = Convert.ToInt32(Console.ReadLine());
-       
+            Interfaz.mostrarHeader();
+            Console.Write("🔍 Por favor ingrese su ID\n--> ");
+            string? input = Console.ReadLine();
+            
+            if (string.IsNullOrEmpty(input))
+            {
+                Console.WriteLine("⚠️  Valor nulo, por favor intente nuevamente [ENTER].");
+            }
+            else if (!int.TryParse(input, out id))
+            {
+                Console.WriteLine("⚠️  Valor no aceptado, por favor intente nuevamente [ENTER].");
+            }
+            else
+            {
+                int.TryParse(input, out id);
+                if ( id < 1 || id > 20)
+                {
+                    Console.WriteLine("⚠️  Cuenta no encontrada, por favor intente nuevamente [ENTER].");
+                }
+                else
+                {
+                    break;
+                }
+            }
+            Console.ReadKey();
+        }
+        
         try
         {
             string Query = $"SELECT * FROM clientesCuenta WHERE id = {id}";
