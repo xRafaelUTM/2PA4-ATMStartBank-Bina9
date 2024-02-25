@@ -38,7 +38,7 @@ class Program
                 switch (opcion)
                 {
                     case "1":
-                        Deposito(Usuario);
+                        Depositos.RealizarDeposito(Usuario);
                         break;
                     case "2":
                         Console.WriteLine("\n💳 Has seleccionado: Pagar");
@@ -69,80 +69,4 @@ class Program
         }
     }
 
-
-    public static void Deposito(Usuario? Usuario)
-    {
-        Interfaz.MostrarHeader(); // HEADER
-        Interfaz.DatosDepositoTarjeta(Usuario);
-        
-        decimal importe;
-        while (true)
-        {
-            Console.Write("💲 Ingrese el importe a depositar. [Si desea cancelar, ingrese: * ]\n--> ");
-            string? input = Console.ReadLine();
-
-            if (input == "*")
-            {
-                Console.WriteLine("\n🚫 El usuario ha cancelado la operación.");
-                return; //Salir hacia el main
-            }
-            if (!string.IsNullOrWhiteSpace(input))
-            {
-                if (Validaciones.TryObtenerImporte(input, out importe) && Validaciones.ValidarImporte(importe))
-                {
-                    
-                    Interfaz.MostrarHeader(); // HEADER
-                    Interfaz.DatosDepositoTarjetaImporte(Usuario, importe);
-                    
-                    Console.Write("❕ Ingrese el motivo de pago. [Si desea cancelar, ingrese: * ]\n--> ");
-                    input = Console.ReadLine();
-                    string? motivo = input;
-                    if (input == "*")
-                    {
-                        Console.WriteLine("\n🚫 El usuario ha cancelado la operación.");
-                        return;
-                    }
-                    else
-                    {
-                        Interfaz.MostrarHeader(); // HEADER
-                        Console.WriteLine("\n\t🌟 DATOS DEL DEPÓSITO 🌟\n");
-                        Console.WriteLine($"💳 Tarjeta: \t{Usuario?.tarjetaDebito}\n");
-                        Console.WriteLine($"💰 Importe: \t{importe:C}\n");
-                        Console.WriteLine($"📝 Motivo: \t{input}\n");
-                        
-                        Console.Write("❕ ¿Todos los datos son correctos?. \n\n1.[✅ Continuar] // 2.[❌ Cancelar operación]\n--> ");
-                        
-                        do
-                        {
-                            input = Console.ReadLine();
-
-                            if (input == "2"){Console.WriteLine("\n🚫 El usuario ha cancelado la operación."); return;}
-                            else if(input == "1")
-                            {
-                                Usuario?.DepositoUpdate(Usuario,importe);
-                                Comprobante.ComprobanteDepositos(Usuario,importe, motivo);
-                                Interfaz.MostrarHeader(); // HEADER
-                                Console.WriteLine("\n✅ Depósito exitoso.");
-                                Console.WriteLine("\n📃 SE HA IMPRESO SU COMPROBANTE 📃");
-                                break;
-                            }
-                            else
-                            {
-                                Console.Write("🚫 Seleccione un dato correcto.\n--> ");
-                            }
-                            
-                        } while (true);
-
-                        break;
-                    }
-                    
-                }
-            }
-            else
-            {
-                Console.WriteLine("⚠️ Por favor, ingrese un importe válido.");
-            }
-
-        }
-    }
 }

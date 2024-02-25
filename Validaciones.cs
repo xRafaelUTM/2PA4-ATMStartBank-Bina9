@@ -40,34 +40,34 @@ public class Validaciones
     }
 
     public static bool TryObtenerImporte(string input, out decimal importe)
-{
-    importe = 0;
+    {
+        importe = 0;
 
-    if (input == "*")
-    {
-        return false; // El usuario ha ingresado "*" para cancelar
-    }
+        if (input == "*")
+        {
+            return false;
+        }
 
-    try
-    {
-        importe = Convert.ToDecimal(input);
-        return true;
-    }
-    catch (FormatException)
-    {
-        Console.WriteLine("⚠️ Formato incorrecto. Por favor, ingrese un número válido.");
-    }
-    catch (OverflowException)
-    {
-        Console.WriteLine("⚠️ El importe ingresado es demasiado grande o demasiado pequeño. Por favor, ingrese un valor válido.");
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"⚠️ Error: {ex.Message}");
-    }
+        try
+        {
+            importe = Convert.ToDecimal(input);
+            return true;
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("⚠️ Formato incorrecto. Por favor, ingrese un número válido.");
+        }
+        catch (OverflowException)
+        {
+            Console.WriteLine("⚠️ El importe ingresado es demasiado grande o demasiado pequeño. Por favor, ingrese un valor válido.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"⚠️ Error: {ex.Message}");
+        }
 
-    return false;
-}
+        return false;
+    }
 
     public static bool ValidarImporte(decimal importe)
     {
@@ -82,8 +82,6 @@ public class Validaciones
             Console.WriteLine("⚠️ El importe debe ser un valor ingresado por billetes (20, 50, 100, 200, 500, 1000). Por favor, inténtelo nuevamente.");
             return false;
         }
-
-        // Agrega aquí cualquier otra validación que desees realizar
 
         return true;
     }

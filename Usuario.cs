@@ -117,7 +117,6 @@ public class Usuario
             conexionBD.CerrarConexion();
         }
 
-        
     }
 
     public int id {get => Id; set => Id = value;}
