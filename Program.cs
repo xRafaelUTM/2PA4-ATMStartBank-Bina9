@@ -7,20 +7,20 @@ class Program
 {
     static void Main(string[] args)
     {
-        // Establece la codificación UTF-8 como la codificación predeterminada para todas las operaciones de entrada y salida
-        Console.InputEncoding = Encoding.UTF8;
-        Console.OutputEncoding = Encoding.UTF8;
+         
+        Console.InputEncoding = Encoding.UTF8; //Codificación UTF-8
+        Console.OutputEncoding = Encoding.UTF8; //Codificación UTF-8
         while (true)
         {
-            Usuario? Usuario = Usuario.CrearUsuario();
             Console.Clear();
+            Usuario? Usuario = Usuario.CrearUsuario(); //GENERA UN USUARIO SEGUN SU ID
+            
 
             bool salir = false;
             while (!salir)
             {
-                Console.Clear(); // Limpiar la consola en cada iteración
 
-                Interfaz.mostrarHeader();
+                Interfaz.MostrarHeader(); // HEADER
                 Console.WriteLine($"\nBienvenido {Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}\n");
                 
                 Console.WriteLine("\t🌟 Menú Principal 🌟\n");
@@ -35,19 +35,20 @@ class Program
                 switch (opcion)
                 {
                     case "1":
-                        Console.WriteLine("\n🏦 Has seleccionado: Depositar a tu cuenta");
-                        // Lógica para depositar
+                        Deposito(Usuario);
                         break;
                     case "2":
                         Console.WriteLine("\n💳 Has seleccionado: Pagar");
-                        // Lógica para pagar
+                        //Lógica para pagar
                         break;
                     case "3":
                         Console.WriteLine("\n💸 Has seleccionado: Retirar");
-                        // Lógica para retirar
+                        //Lógica para retirar
                         break;
                     case "4":
-                        Console.WriteLine("\n❌ Saliendo del programa...");
+                        Console.WriteLine("\n✅ Vuelva pronto...");
+                        Console.WriteLine("💳 Retire su tarjeta.");
+                        Thread.Sleep(6000);
                         salir = true;
                         break;
                     default:
@@ -62,11 +63,66 @@ class Program
                 }
 
             }
-            if (!salir)
+        }
+    }
+
+
+    public static void Deposito(Usuario? Usuario)
+    {
+        Interfaz.MostrarHeader(); // HEADER
+        Interfaz.DatosDepositoTarjeta(Usuario);
+        
+        decimal importe;
+        while (true)
+        {
+            Console.Write("💲 Ingrese el importe a depositar. [Si desea cancelar, ingrese: * ]\n--> ");
+            string? input = Console.ReadLine();
+
+            if (input == "*")
+            {
+                Console.WriteLine("\n🚫 El usuario ha cancelado la operación.");
+                return; //Salir hacia el main
+            }
+            if (!string.IsNullOrWhiteSpace(input))
+            {
+                if (Validaciones.TryObtenerImporte(input, out importe) && Validaciones.ValidarImporte(importe))
                 {
-                    Console.WriteLine("\nPresiona cualquier tecla para volver al menú...");
-                    Console.ReadKey();
-                } 
+                    
+                    Interfaz.MostrarHeader(); // HEADER
+                    Interfaz.DatosDepositoTarjetaImporte(Usuario, importe);
+                    
+                    Console.Write("❕ Ingrese el motivo de pago. [Si desea cancelar, ingrese: * ]\n--> ");
+                    input = Console.ReadLine();
+                    if (input == "*")
+                    {
+                        Console.WriteLine("\n🚫 El usuario ha cancelado la operación.");
+                        return; //Salir hacia el main
+                    }
+                    else
+                    {
+                        Interfaz.MostrarHeader(); // HEADER
+                        Interfaz.DatosDepositoTarjetaImporteMotivo(Usuario, importe, input);
+                        
+                        Console.Write("❕ ¿Todos los datos son correctos?. \n\n1.[✅ Continuar] // 2.[❌ Cancelar operación]\n--> ");
+                        input = Console.ReadLine();
+
+                        if (input == "2"){Console.WriteLine("\n🚫 El usuario ha cancelado la operación."); return;}
+                        else if(input == "1")
+                        {
+                            Usuario.DepositoUpdate(Usuario,importe);
+                        }
+
+
+                        break;
+                    }
+                    
+                }
+            }
+            else
+            {
+                Console.WriteLine("⚠️ Por favor, ingrese un importe válido.");
+            }
+
         }
     }
 }

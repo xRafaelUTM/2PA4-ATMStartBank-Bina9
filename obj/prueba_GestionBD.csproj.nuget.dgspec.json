@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\solis\\Downloads\\prueba_GestionBD\\prueba_GestionBD.csproj": {}
+    "C:\\Users\\solis\\Downloads\\2PA4-ATMStartBank-Bina9\\prueba_GestionBD.csproj": {}
   },
   "projects": {
-    "C:\\Users\\solis\\Downloads\\prueba_GestionBD\\prueba_GestionBD.csproj": {
+    "C:\\Users\\solis\\Downloads\\2PA4-ATMStartBank-Bina9\\prueba_GestionBD.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\solis\\Downloads\\prueba_GestionBD\\prueba_GestionBD.csproj",
+        "projectUniqueName": "C:\\Users\\solis\\Downloads\\2PA4-ATMStartBank-Bina9\\prueba_GestionBD.csproj",
         "projectName": "prueba_GestionBD",
-        "projectPath": "C:\\Users\\solis\\Downloads\\prueba_GestionBD\\prueba_GestionBD.csproj",
+        "projectPath": "C:\\Users\\solis\\Downloads\\2PA4-ATMStartBank-Bina9\\prueba_GestionBD.csproj",
         "packagesPath": "C:\\Users\\solis\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\solis\\Downloads\\prueba_GestionBD\\obj\\",
+        "outputPath": "C:\\Users\\solis\\Downloads\\2PA4-ATMStartBank-Bina9\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\solis\\AppData\\Roaming\\NuGet\\NuGet.Config",

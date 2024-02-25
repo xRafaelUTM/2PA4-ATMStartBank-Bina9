@@ -50,36 +50,20 @@ public class Usuario
         var conexionBD = new ConexionBD();
         int id;
         
-        while (true)
+        do
         {
-            Console.Clear();
-
-            Interfaz.mostrarHeader();
+            Interfaz.MostrarHeader();
             Console.Write("🔍 Por favor ingrese su ID\n--> ");
             string? input = Console.ReadLine();
-            
-            if (string.IsNullOrEmpty(input))
+
+            if (Validaciones.ValidarIDNULL(input) && Validaciones.ValidarIDRango(input, out id))
             {
-                Console.WriteLine("⚠️  Valor nulo, por favor intente nuevamente [ENTER].");
+                break;
             }
-            else if (!int.TryParse(input, out id))
-            {
-                Console.WriteLine("⚠️  Valor no aceptado, por favor intente nuevamente [ENTER].");
-            }
-            else
-            {
-                int.TryParse(input, out id);
-                if ( id < 1 || id > 20)
-                {
-                    Console.WriteLine("⚠️  Cuenta no encontrada, por favor intente nuevamente [ENTER].");
-                }
-                else
-                {
-                    break;
-                }
-            }
+
             Console.ReadKey();
-        }
+            Console.Clear();
+        } while (true);
         
         try
         {
@@ -107,6 +91,32 @@ public class Usuario
             conexionBD.CerrarConexion();
         }
         return null;
+    }
+
+    public void DepositoUpdate(Usuario? Usuario, decimal importe)
+    {
+        var conexionBD = new ConexionBD();
+        
+        SaldoTarjetaDebito += importe;
+
+        // Actualizar un saldo UPDATE
+        try
+        {
+            string Query = $"UPDATE clientesCuenta SET saldoTarjetaDebito = {SaldoTarjetaDebito} WHERE id = {Id}"; 
+            var cmd = new SqlCommand(Query, conexionBD.AbrirConexion());
+            cmd.ExecuteNonQuery();
+            Console.WriteLine("Se actualizó un dato.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+        finally
+        {
+            conexionBD.CerrarConexion();
+        }
+
+        
     }
 
     public int id {get => Id; set => Id = value;}

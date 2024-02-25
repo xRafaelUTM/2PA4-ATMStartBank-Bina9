@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2S9QEjtOV7vLUdcm9DAIjLhhJBFzr5HldiHqqohqX9U2XRdVb3HpLJdE/Fl94xpoDygrZT+i9GXyNKW/ET9/ZQ==",
+  "dgSpecHash": "1pSVely71Ofa/Wb76sEbf9d1DhDuFx2nN3FMTS3/hq46DFbVO+5/pR3Tin5QLCWdu4SuFruBidts7vtU3+nXwg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\solis\\Downloads\\prueba_GestionBD\\prueba_GestionBD.csproj",
+  "projectFilePath": "C:\\Users\\solis\\Downloads\\2PA4-ATMStartBank-Bina9\\prueba_GestionBD.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\solis\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\solis\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
