@@ -1,7 +1,7 @@
 using System.Text;
 using System.Data.SqlClient;
 
-namespace prueba_GestionBD;
+namespace ATMStartBank;
 
 public class ConexionBD
 {

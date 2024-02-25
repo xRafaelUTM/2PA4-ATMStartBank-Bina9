@@ -1,4 +1,4 @@
-namespace prueba_GestionBD;
+namespace ATMStartBank;
 public class Interfaz
 {
     public static void mostrarHeader()

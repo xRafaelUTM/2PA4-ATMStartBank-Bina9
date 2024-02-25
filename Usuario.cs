@@ -2,7 +2,7 @@ using System.Text;
 using System.Data.SqlClient;
 using System.Runtime.Serialization;
 
-namespace prueba_GestionBD;
+namespace ATMStartBank;
 
 public class Usuario
 {
