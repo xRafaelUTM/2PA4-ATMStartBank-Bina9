@@ -1,10 +1,14 @@
-using System.Text;
 using System.Data.SqlClient;
+using System.Runtime.Serialization;
+using System.IO;
+using ATMStartBank;
+using System.Text;
 
 namespace ATMStartBank;
 
 public class ConexionBD
 {
+    
     private string conexionString = "Server=DESKTOP-KEI8B51;Database=clientesBank;Integrated Security=True;";
     public SqlConnection conexion;
     public ConexionBD()

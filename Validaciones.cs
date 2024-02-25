@@ -1,9 +1,17 @@
+using System.Data.SqlClient;
+using System.Runtime.Serialization;
+using System.IO;
+using ATMStartBank;
+using System.Text;
+
+namespace ATMStartBank;
 public class Validaciones
 {
     internal static int input;
 
     public static bool ValidarIDNULL(string? input)
     {
+        
         if (string.IsNullOrEmpty(input))
         {
             Console.WriteLine("⚠️  Valor nulo, por favor intente nuevamente [ENTER].");
@@ -71,7 +79,7 @@ public class Validaciones
 
         if (importe % 20 != 0 && importe % 50 != 0 && importe % 100 != 0 && importe % 200 != 0 && importe % 500 != 0 && importe % 1000 != 0)
         {
-            Console.WriteLine("⚠️ El importe debe ser un valor ingresado por billetes (20, 50, 100, 200, 500, 1000). Por favor, intente nuevamente.");
+            Console.WriteLine("⚠️ El importe debe ser un valor ingresado por billetes (20, 50, 100, 200, 500, 1000). Por favor, inténtelo nuevamente.");
             return false;
         }
 

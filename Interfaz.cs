@@ -1,3 +1,9 @@
+using System.Data.SqlClient;
+using System.Runtime.Serialization;
+using System.IO;
+using ATMStartBank;
+using System.Text;
+
 namespace ATMStartBank;
 public class Interfaz
 {

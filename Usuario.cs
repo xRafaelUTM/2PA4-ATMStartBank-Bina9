@@ -1,6 +1,8 @@
-using System.Text;
 using System.Data.SqlClient;
 using System.Runtime.Serialization;
+using System.IO;
+using ATMStartBank;
+using System.Text;
 
 namespace ATMStartBank;
 
@@ -105,7 +107,6 @@ public class Usuario
             string Query = $"UPDATE clientesCuenta SET saldoTarjetaDebito = {SaldoTarjetaDebito} WHERE id = {Id}"; 
             var cmd = new SqlCommand(Query, conexionBD.AbrirConexion());
             cmd.ExecuteNonQuery();
-            Console.WriteLine("Se actualizó un dato.");
         }
         catch (Exception ex)
         {
