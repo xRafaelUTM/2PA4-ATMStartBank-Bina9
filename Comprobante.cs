@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using System.IO;
 using ATMStartBank;
 using System.Text;
+using System.Collections.Generic;
 public static class Comprobante
 {
     public static void ComprobanteDepositos(Usuario? Usuario, decimal importe, string? motivo)

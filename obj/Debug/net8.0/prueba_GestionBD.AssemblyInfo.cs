@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("prueba_GestionBD")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f4afe2ad176459dbd5d64c7eb4ca4fd5e0321e0b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+26f2226ecc751badf4d090495f9d94614bd4564e")]
 [assembly: System.Reflection.AssemblyProductAttribute("prueba_GestionBD")]
 [assembly: System.Reflection.AssemblyTitleAttribute("prueba_GestionBD")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using System.IO;
 using ATMStartBank;
 using System.Text;
+using System.Collections.Generic;
 
 namespace ATMStartBank;
 
@@ -41,8 +42,7 @@ class Program
                         Depositos.RealizarDeposito(Usuario);
                         break;
                     case "2":
-                        Console.WriteLine("\n💳 Has seleccionado: Pagar");
-                        //Lógica para pagar
+                        Pagos.MenuPagos(Usuario);
                         break;
                     case "3":
                         Console.WriteLine("\n💸 Has seleccionado: Retirar");
