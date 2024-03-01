@@ -9,7 +9,7 @@ namespace ATMStartBank;
 
 public static class Depositos
 {
-    public static void RealizarDeposito(Usuario? usuario)
+    public static void RealizarDeposito(Usuario? usuario, Atm? Atm)
     {
         Interfaz.MostrarHeader(); // HEADER
         Interfaz.DatosDepositoTarjeta(usuario);
@@ -49,7 +49,8 @@ public static class Depositos
 
                         if (ConfirmarDatos())
                         {
-                            usuario?.DepositoUpdate(usuario, importe);
+                            usuario?.DepositoUpdate(importe);
+                            Atm?.EfectivoDepositoUpdate(importe);
                             Comprobante.ComprobanteDepositos(usuario, importe, motivo);
                             Interfaz.MostrarHeader(); // HEADER
                             Console.WriteLine("\n✅ Depósito exitoso.");

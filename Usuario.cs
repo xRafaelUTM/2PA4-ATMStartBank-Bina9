@@ -4,6 +4,7 @@ using System.IO;
 using ATMStartBank;
 using System.Text;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace ATMStartBank;
 
@@ -96,7 +97,7 @@ public class Usuario
         return null;
     }
 
-    public void DepositoUpdate(Usuario? Usuario, decimal importe)
+    public void DepositoUpdate(decimal importe)
     {
         var conexionBD = new ConexionBD();
         
@@ -119,6 +120,37 @@ public class Usuario
         }
 
     }
+
+    public void PagoUpdate(string nombrePropiedad, decimal importe)
+    {
+        var conexionBD = new ConexionBD();
+        PropertyInfo? propiedad = this.GetType().GetProperty(nombrePropiedad);
+
+        #pragma warning disable CS8605 // Conversión unboxing a un valor posiblemente NULL.
+        decimal valorActual = (decimal)propiedad?.GetValue(this);
+        #pragma warning restore CS8605 // Conversión unboxing a un valor posiblemente NULL.
+
+        decimal nuevoValor = valorActual - importe;
+        // Asigna el nuevo valor a la propiedad
+        propiedad.SetValue(this, nuevoValor);
+
+        // Actualizar un saldo UPDATE
+        try
+        {
+            string Query = $"UPDATE clientesCuenta SET {nombrePropiedad} = {nuevoValor} WHERE id = {Id}"; 
+            var cmd = new SqlCommand(Query, conexionBD.AbrirConexion());
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+        finally
+        {
+            conexionBD.CerrarConexion();
+        }
+    }
+    
 
     public int id {get => Id; set => Id = value;}
     public string? nombres {get => Nombres; set => Nombres = value;}

@@ -18,6 +18,7 @@ class Program
         {
             Console.Clear();
             Usuario? Usuario = Usuario.CrearUsuario(); //GENERA UN USUARIO SEGUN SU ID
+            Atm? Atm = Atm.EfectivoInicio(); //Trae el efectivo del banco
             
 
             bool salir = false;
@@ -39,10 +40,10 @@ class Program
                 switch (opcion)
                 {
                     case "1":
-                        Depositos.RealizarDeposito(Usuario);
+                        Depositos.RealizarDeposito(Usuario, Atm);
                         break;
                     case "2":
-                        Pagos.MenuPagos(Usuario);
+                        Pagos.MenuPagos(Usuario, Atm);
                         break;
                     case "3":
                         Console.WriteLine("\n💸 Has seleccionado: Retirar");
