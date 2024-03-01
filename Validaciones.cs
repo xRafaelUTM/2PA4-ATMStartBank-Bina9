@@ -18,7 +18,7 @@ public class Validaciones
             Console.WriteLine("⚠️  Valor nulo, por favor intente nuevamente [ENTER].");
             return false;
         }
-        else if (!int.TryParse(input, out _))
+        else if (!decimal.TryParse(input,out _))
         {
             Console.WriteLine("⚠️  Valor no aceptado, por favor intente nuevamente [ENTER].");
             return false;
@@ -27,17 +27,47 @@ public class Validaciones
         return true;
     }
 
-    public static bool ValidarIDRango(string? input, out int id)
+    public static bool ValidarIDRango(string? input, out decimal tarjeta)
     {
-        id = Convert.ToInt32(input);
+        tarjeta = Convert.ToDecimal(input);
 
-        if (id < 1 || id > 20)
+
+        List<string?> numerosTarjeta = new List<string?>
         {
-            Console.WriteLine("⚠️  Cuenta no encontrada, por favor intente nuevamente [ENTER].");
+            "5786709677231470",
+            "5752012256582762",
+            "5722171528569223",
+            "5585534185761346",
+            "5572136128787799",
+            "5716747958312739",
+            "5912219448252724",
+            "5871410557766564",
+            "5923175728438364",
+            "5786708914231470",
+            "5722964960389093",
+            "5786709254919470",
+            "5786709712218505",
+            "5786709212231470",
+            "5786709629361499",
+            "5786709677231471",
+            "5786709677231271",
+            "5786709549131672",
+            "5786709677231573",
+            "5786709596831454"
+        };
+
+        
+        bool boleano = numerosTarjeta.Contains(input);
+
+        if (boleano == false)
+        {
+            Console.WriteLine("⚠️  Valor no encontrado, por favor intente nuevamente [ENTER].");
             return false;
         }
-
-        return true;
+        else
+        {
+            return true;
+        }
     }
 
     public static bool TryObtenerImporte(string input, out decimal importe)
@@ -72,6 +102,12 @@ public class Validaciones
 
     public static bool ValidarImporte(decimal importe)
     {
+        if(importe > 40000)
+        {
+            Console.WriteLine("⚠️ El importe debe ser menor a $40,000. Por favor, intente nuevamente.");
+            return false; 
+        }
+
         if (importe <= 0)
         {
             Console.WriteLine("⚠️ El importe debe ser mayor que cero. Por favor, intente nuevamente.");

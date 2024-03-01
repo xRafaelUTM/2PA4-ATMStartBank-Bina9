@@ -5,6 +5,7 @@ using ATMStartBank;
 using System.Text;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace ATMStartBank;
 
@@ -52,15 +53,22 @@ public class Usuario
     public static Usuario? CrearUsuario()
     {
         var conexionBD = new ConexionBD();
-        int id;
+        decimal tarjeta;
         
         do
         {
+            // Ruta 
+            string archivoPython = @"./lector_codigo_barras.py";
+
+            // Iniciar el proceso Pyton mano
+            Process.Start("python", archivoPython);
+
             Interfaz.MostrarHeader();
-            Console.Write("🔍 Por favor ingrese su ID\n--> ");
+            Console.Write("🔍 Por favor ingrese su Tarjeta\n--> ");
             string? input = Console.ReadLine();
 
-            if (Validaciones.ValidarIDNULL(input) && Validaciones.ValidarIDRango(input, out id))
+            
+            if(Validaciones.ValidarIDNULL(input) && Validaciones.ValidarIDRango(input, out tarjeta))
             {
                 break;
             }
@@ -71,7 +79,7 @@ public class Usuario
         
         try
         {
-            string Query = $"SELECT * FROM clientesCuenta WHERE id = {id}";
+            string Query = $"SELECT * FROM clientesCuenta WHERE tarjetaDebito = {tarjeta}";
             var cmd = new SqlCommand(Query, conexionBD.AbrirConexion());
             
 

@@ -10,7 +10,7 @@ namespace ATMStartBank;
 public class ConexionBD
 {
     
-    private string conexionString = "Server=DESKTOP-KEI8B51;Database=clientesBank;Integrated Security=True;";
+    private string conexionString = "Server=DESKTOP-3EG8250;Database=clientesBank;Integrated Security=True;";
     public SqlConnection conexion;
     public ConexionBD()
     {
