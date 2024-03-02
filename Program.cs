@@ -33,7 +33,7 @@ class Program
                 Console.WriteLine("3. 💸 Retirar (Efectivo y operaciones con tarjeta)");
                 Console.WriteLine("4. ❌ Salir");
 
-                Console.Write("\nPor favor ingresa el número de la opción que deseas realizar. \n--> ");
+                Console.Write("\nPor favor, ingresa el número de la opción que deseas realizar. \n--> ");
                 string? opcion = Console.ReadLine();
 
                 switch (opcion)
@@ -45,8 +45,7 @@ class Program
                         Pagos.MenuPagos(Usuario, Atm);
                         break;
                     case "3":
-                        Console.WriteLine("\n💸 Has seleccionado: Retirar");
-                        //Lógica para retirar
+                        Retirar.IngresarIRetiro(Usuario, Atm);
                         break;
                     case "4":
                         Console.WriteLine("\n✅ Vuelva pronto...");

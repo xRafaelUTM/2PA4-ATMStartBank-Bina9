@@ -47,7 +47,7 @@ public static class Depositos
                         Console.WriteLine($"💰 Importe: \t{importe:C}\n");
                         Console.WriteLine($"📝 Motivo: \t{motivo}\n");
 
-                        if (ConfirmarDatos())
+                        if (Validaciones.ConfirmarDatos())
                         {
                             usuario?.DepositoUpdate(importe);
                             Atm?.EfectivoDepositoUpdate(importe);
@@ -74,26 +74,5 @@ public static class Depositos
         return input ?? string.Empty;
     }
 
-    private static bool ConfirmarDatos()
-    {
-        Console.Write("❕ ¿Todos los datos son correctos?. \n\n1.[✅ Continuar] // 2.[❌ Cancelar operación]\n--> ");
 
-        while (true)
-        {
-            string? input = Console.ReadLine();
-            if (input == "2")
-            {
-                Console.WriteLine("\n🚫 El usuario ha cancelado la operación.");
-                return false;
-            }
-            else if (input == "1")
-            {
-                return true;
-            }
-            else
-            {
-                Console.Write("🚫 Seleccione un dato correcto.\n--> ");
-            }
-        }
-    }
 }

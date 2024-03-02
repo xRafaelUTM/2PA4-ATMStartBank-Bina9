@@ -122,5 +122,62 @@ public class Validaciones
 
         return true;
     }
-    
+
+    public static bool TryNIPValido(Usuario? Usuario, string input, out int nipInput)
+    {
+        nipInput = 0;
+
+        try
+        {
+            nipInput = Convert.ToInt32(input);
+            if (nipInput == Usuario?.pinTarjeta)
+            {
+                return true;
+            }
+            else
+            {
+                Console.Write("⚠️  NIP incorrecto. Por favor, ingrese su NIP correctamente.\n--> ");
+            }
+            
+        }
+        catch (FormatException)
+        {
+            Console.Write("⚠️  Formato incorrecto. Por favor, ingrese un NIP válido.\n--> ");
+        }
+        catch (OverflowException)
+        {
+            Console.Write("⚠️  El NIP ingresado es demasiado grande o demasiado pequeño. Por favor, ingrese un NIP válido.\n--> ");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"⚠️ Error: {ex.Message}");
+        }
+
+        
+        return false;
+    }
+
+    public static bool ConfirmarDatos()
+    {
+        Console.Write("❕ ¿Todos los datos son correctos?. \n\n1.[✅ Continuar] // 2.[❌ Cancelar operación]\n--> ");
+
+        while (true)
+        {
+            string? input = Console.ReadLine();
+            if (input == "2")
+            {
+                Console.WriteLine("\n🚫 El usuario ha cancelado la operación.");
+                return false;
+            }
+            else if (input == "1")
+            {
+                return true;
+            }
+            else
+            {
+                Console.Write("🚫 Seleccione un dato correcto.\n--> ");
+            }
+        }
+    }
+
 }

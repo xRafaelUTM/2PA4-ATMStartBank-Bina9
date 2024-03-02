@@ -129,7 +129,7 @@ public class Usuario
 
     }
 
-    public void PagoUpdate(string nombrePropiedad, decimal importe)
+    public void PagoServicioUpdate(string nombrePropiedad, decimal importe)
     {
         var conexionBD = new ConexionBD();
         PropertyInfo? propiedad = this.GetType().GetProperty(nombrePropiedad);
@@ -146,6 +146,28 @@ public class Usuario
         try
         {
             string Query = $"UPDATE clientesCuenta SET {nombrePropiedad} = {nuevoValor} WHERE id = {Id}"; 
+            var cmd = new SqlCommand(Query, conexionBD.AbrirConexion());
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+        finally
+        {
+            conexionBD.CerrarConexion();
+        }
+    }
+    public void RetiroDeCuentaUpdate(decimal importe)
+    {
+        var conexionBD = new ConexionBD();
+        
+        SaldoTarjetaDebito -= importe;
+
+        // Actualizar un saldo UPDATE
+        try
+        {
+            string Query = $"UPDATE clientesCuenta SET saldoTarjetaDebito = {SaldoTarjetaDebito} WHERE id = {Id}"; 
             var cmd = new SqlCommand(Query, conexionBD.AbrirConexion());
             cmd.ExecuteNonQuery();
         }

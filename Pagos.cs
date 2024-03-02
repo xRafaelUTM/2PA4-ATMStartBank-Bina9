@@ -44,7 +44,7 @@ public class Pagos
         Console.WriteLine("10.❌ Cancelar la operación.");
 
         int opcion = 10;
-        Console.Write("\nPor favor ingresa el número de la opción que deseas realizar \n--> ");
+        Console.Write("\nPor favor, ingresa el número de la opción que deseas realizar \n--> ");
 
         do
         {
@@ -83,8 +83,8 @@ public class Pagos
         decimal valorPago = (decimal)propiedad?.GetValue(Usuario);
         #pragma warning restore CS8605 // Conversión unboxing a un valor posiblemente NULL.
         Interfaz.MostrarHeader(); // HEADER
-        Console.WriteLine($"\nTitular {Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}\n");
-        Console.WriteLine($"\n🌟 Pago {servicioSeleccionado.Item1} 🌟\n");
+        Console.WriteLine($"\nTitular:  {Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}\n");
+        Console.WriteLine($"\n🌟 Pago  {servicioSeleccionado.Item1} 🌟\n");
         Console.WriteLine($"\n💸 Importe a pagar: {valorPago}\n");
 
         if (valorPago == 0)
@@ -121,13 +121,14 @@ public class Pagos
 
         Interfaz.MostrarHeader(); // HEADER
         Tuple<string, string> servicioSeleccionado = servicios[opcion];
-        Console.WriteLine($"\nTitular {Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}\n");
-        Console.WriteLine($"\n🌟 Pago {servicioSeleccionado.Item1} 🌟\n");
-        Console.WriteLine($"\n💸 Importe a pagar: {valorPago}\n");
-        Console.Write("❕ ¿Como desea ralizar el pago?. \n\n1.[✅ Efectivo] // 2.[✅ Saldo en cuenta] 3.[❌ Cancelar operación]\n--> ");
+        Console.WriteLine($"\nTitular:  {Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}\n");
+        Console.WriteLine($"\n🌟 Pago:  {servicioSeleccionado.Item1} 🌟\n");
+        Console.WriteLine($"\n💸 Importe a pagar: ${valorPago}\n");
+        Console.Write("❕ ¿Como desea realizar el pago?. \n\n1.[✅ Efectivo] // 2.[✅ Saldo en cuenta] 3.[❌ Cancelar operación]\n--> ");
 
         while (true)
         {
+            bool salir = true;
             string? input = Console.ReadLine();
 
             switch (input)
@@ -139,10 +140,15 @@ public class Pagos
                 case "2":
                     if (valorPago > Usuario?.saldoTarjetaDebito)
                     {
-                        Console.WriteLine("🚫 No tienes saldo suficiente en tu cuenta.");
-                        break; 
+                        salir = false;
+                        Console.Write("🚫 No tienes saldo suficiente en tu cuenta. \nSelecciona otra opción --> "); 
+                        break;
                     }
-                    break;
+                    else
+                    {
+                        RealizarPagoTransaccion(Usuario, nombrePropiedad, valorPago, servicioSeleccionado, atm);
+                        break;
+                    }
 
                 case "3":
                     Console.WriteLine("\n🚫 El usuario ha cancelado la operación.");
@@ -152,7 +158,11 @@ public class Pagos
                     Console.Write("🚫 Seleccione un dato correcto.\n--> ");
                     break;
             }
-            if (input == "1" || input == "2"){break;}
+            if (salir == true)
+            {
+                if (input == "1" || input == "2"){break;}
+            }
+            
         }
 
     }
@@ -160,9 +170,9 @@ public class Pagos
     public static void RealizarPagoEfectivo(Usuario? Usuario, string nombrePropiedad,decimal importe, Tuple<string, string> servicioSeleccionado, Atm? Atm)
     {
         Interfaz.MostrarHeader(); // HEADER
-        Console.WriteLine($"\nTitular {Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}\n");
-        Console.WriteLine($"\n🌟 Pago {servicioSeleccionado.Item1} 🌟\n");
-        Console.WriteLine($"\n💸 Importe a pagar: {importe}\n");
+        Console.WriteLine($"\nTitular: {Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}\n");
+        Console.WriteLine($"\n🌟 Pago: {servicioSeleccionado.Item1} 🌟\n");
+        Console.WriteLine($"\n💸 Importe a pagar: ${importe}\n");
         Console.Write("❕ Por favor ingrese los billetes. \n\n1.[✅ Listo, continuar] // 2.[❌ Cancelar operación]\n--> ");
         
         while (true)
@@ -176,7 +186,7 @@ public class Pagos
                 else if (input == "1")
                 {
                     
-                    Usuario?.PagoUpdate(nombrePropiedad, importe);
+                    Usuario?.PagoServicioUpdate(nombrePropiedad, importe);
                     Atm?.EfectivoDepositoUpdate(importe);
                     bool tipo = true;
                     Comprobante.ComprobantePagos(Usuario,importe, servicioSeleccionado, tipo);
@@ -193,8 +203,80 @@ public class Pagos
         
     }
 
-    public static void RealizarPagoTransaccion(Usuario? Usuario, string nombrePropiedad, decimal valorPago)
+    public static void RealizarPagoTransaccion(Usuario? Usuario, string nombrePropiedad,decimal importe, Tuple<string, string> servicioSeleccionado, Atm? Atm)
     {
+        Interfaz.MostrarHeader(); // HEADER
+        Console.WriteLine($"\nTitular:  {Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}\n");
+        Console.WriteLine($"\nCuenta de origen:  {Usuario?.tarjetaDebito}\n");
+        Console.Write("✋ Por favor, ingrese su NIP. [Si desea cancelar, ingrese: * ]\n--> ");
+        for (int i = 0; true; i++)
+        {
+            if (i == 5)
+            {
+                Interfaz.MostrarHeader(); // HEADER
+                Console.WriteLine($"\nTitular:  {Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}\n");
+                Console.WriteLine($"\nCuenta de origen:  {Usuario?.tarjetaDebito}\n");
+                Console.WriteLine("\n🚫 Ha intentado demasiadas veces.");
+                return; // Salir hacia el main
+            }
+            string? input = Console.ReadLine();
+            int nipInput;
+
+            if (input == "*")
+            {
+                Console.WriteLine("\n🚫 El usuario ha cancelado la operación.");
+                return; // Salir hacia el main
+            }
+            
+            if (!string.IsNullOrWhiteSpace(input))
+            {
+                if (Validaciones.TryNIPValido(Usuario, input, out nipInput))
+                {
+                    break; 
+                }
+            }
+            else
+            {
+                Console.Write("⚠️ Por favor, ingrese su NIP \n--> ");
+            }
+
+        }
+
+
+
+        Interfaz.MostrarHeader(); // HEADER
+        Console.WriteLine($"\nTitular:  {Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}\n");
+        Console.WriteLine($"\nCuenta de origen:  {Usuario?.tarjetaDebito}\n");
+        Console.WriteLine($"\n🌟 Pago {servicioSeleccionado.Item1} 🌟\n");
+        Console.WriteLine($"\n💸 Importe a pagar: ${importe}\n");
+        Console.Write("\n\n1.[✅ Continuar con el pago] // 2.[❌ Cancelar operación]\n--> ");
+        
+        while (true)
+            {
+                string? input = Console.ReadLine();
+                if (input == "2")
+                {
+                    Console.WriteLine("\n🚫 El usuario ha cancelado la operación.");
+                    return;
+                }
+                else if (input == "1")
+                {
+                    
+                    Usuario?.PagoServicioUpdate(nombrePropiedad, importe);
+                    Usuario?.RetiroDeCuentaUpdate(importe);
+                    bool tipo = false;
+                    Comprobante.ComprobantePagos(Usuario,importe, servicioSeleccionado, tipo);
+                    Interfaz.MostrarHeader(); // HEADER
+                    Console.WriteLine("\n✅ Pago exitoso.");
+                    Console.WriteLine("\n📃 SE HA IMPRESO SU COMPROBANTE 📃");
+                    break;
+                }
+                else
+                {
+                    Console.Write("🚫 Seleccione un dato correcto.\n--> ");
+                }
+            }
+        
     }
 
 

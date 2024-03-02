@@ -68,6 +68,28 @@ public class Atm
         }
 
     }
+    public void EfectivoRetiroUpdate(decimal importe)
+    {
+        var conexionBD = new ConexionBD();
+        Efectivo -= importe;
+
+        // Actualizar un saldo UPDATE
+        try
+        {
+            string Query = $"UPDATE atmEfectivo SET efectivoDisponible = {Efectivo} "; 
+            var cmd = new SqlCommand(Query, conexionBD.AbrirConexion());
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+        finally
+        {
+            conexionBD.CerrarConexion();
+        }
+
+    }
 
     public decimal efectivo {get => Efectivo; set => Efectivo = value;}
 }

@@ -4,20 +4,21 @@ using System.IO;
 using ATMStartBank;
 using System.Text;
 using System.Collections.Generic;
+
 public static class Comprobante
 {
     public static void ComprobanteDepositos(Usuario? Usuario, decimal importe, string? motivo)
     {
         
-        string fecha = DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss");
+        string fecha = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
 
         TextWriter comprobanteDeposito = new StreamWriter($"./comprobantes/Comprobante-{fecha}--IDCliente-{Usuario?.id}-.txt");
-
+        
         string texto = $"""
 
-        ╔═════════════════╗
+        ╔════════════════════════════╗
         ║      💵   ATM SARTBANK   💵      ║
-        ╚═════════════════╝
+        ╚════════════════════════════╝
             
                 📃 DEPOSITO 📃
 
@@ -33,35 +34,76 @@ public static class Comprobante
 
         comprobanteDeposito.WriteLine(texto);
         comprobanteDeposito.Close();
-
     }
 
     public static void ComprobantePagos(Usuario? Usuario, decimal importe, Tuple<string, string> servicioSeleccionado, bool tipo)
     {
-        
-        string fecha = DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss");
+        string? TipoDePago;
+        if (tipo == true)
+        {
+                TipoDePago = "Efectivo";
+        }
+        else
+        {
+                TipoDePago = "Transacción";
+
+                
+        }
+        string fecha = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
 
         TextWriter comprobanteDeposito = new StreamWriter($"./comprobantes/Comprobante-{fecha}--IDCliente-{Usuario?.id}-.txt");
 
         string texto = $"""
 
-        ╔═════════════════╗
+        ╔════════════════════════════╗
         ║      💵   ATM SARTBANK   💵      ║
-        ╚═════════════════╝
+        ╚════════════════════════════╝
             
-                📃 DEPOSITO 📃
+                📃 PAGO DE SERVICIO 📃
 
         📆 Fecha:   {DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")}
         🧑 Titular:  {Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}
         💳 Tarjeta: {Usuario?.tarjetaDebito}
+        🧾 Pago {servicioSeleccionado.Item1}
+        💲 Tipo de pago: {TipoDePago}
         💰 Importe: {importe:C}
 
                 *CUALQUIER ACLARACION ACUDE
                 CON TU RAFITA MAS CERCANO*
         """;
 
+
         comprobanteDeposito.WriteLine(texto);
         comprobanteDeposito.Close();
 
     }
+
+        public static void ComprobanteRetiro(Usuario? Usuario, decimal montoRetiro)
+        {
+                
+                string fecha = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
+
+                TextWriter comprobanteDeposito = new StreamWriter($"./comprobantes/Comprobante-{fecha}--IDCliente-{Usuario?.id}-.txt");
+                
+                string texto = $"""
+
+                ╔════════════════════════════╗
+                ║      💵   ATM SARTBANK   💵      ║
+                ╚════════════════════════════╝
+                
+                        📃 RETIRO DE EFECTIVO 📃
+
+                📆 Fecha:   {DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")}
+                🧑 Titular:  {Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}
+                💳 Tarjeta: {Usuario?.tarjetaDebito}
+                💰 Monto: {montoRetiro:C}
+
+                        *CUALQUIER ACLARACION ACUDE
+                        CON TU RAFITA MAS CERCANO*
+                """;
+
+                comprobanteDeposito.WriteLine(texto);
+                comprobanteDeposito.Close();
+        }
+
 }
