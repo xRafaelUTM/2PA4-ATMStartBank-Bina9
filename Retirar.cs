@@ -1,4 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using ATMStartBank;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text;
 
 class Retirar
 {
@@ -64,6 +72,9 @@ class Retirar
                     MostrarMenuOpciones(Usuario);
                     return;
                 default:
+                    if (montoMaximoRetirable < 20){Console.Write("\n🚫 No tiene saldo disponible para retirar.\nSeleccione otra opción --> "); break;}
+                    else
+                    {
                     if (decimal.TryParse(input, out decimal montoRetiro) && montoRetiro > 0)
                     {
                         if (montoRetiro <= montoMaximoRetirable && EsMontoRetirable(montoRetiro))
@@ -99,6 +110,7 @@ class Retirar
                         Console.Write("\n⚠️ Entrada no válida. Intente de nuevo. --> ");
                     }
                     break;
+                    }
             }
         }
     }
@@ -181,7 +193,7 @@ class Retirar
             {
                 case "1":
                     // Aquí se implementaría la lógica para mostrar los movimientos
-                    Console.WriteLine("\nMostrando movimientos...");
+                    MostrarMovimientos(Usuario);
                     return;
                 case "2":
                     //Cambiar el NIP
@@ -251,6 +263,54 @@ class Retirar
         }
     }
 
-        
+   public static void MostrarMovimientos(Usuario? Usuario)
+    {
+        TransaccionesCliente transaccionesCliente = new TransaccionesCliente();
+        transaccionesCliente.CargarTransaccionesDesdeDB(Usuario);
+
+        // Muestra inicialmente el historial en el orden por defecto.
+        MostrarTransacciones(transaccionesCliente, Usuario);
+
+        string? opcion = "";
+        do
+        {
+            Console.WriteLine("\nSeleccione una opción para ordenar el historial:");
+            Console.WriteLine("1. Ordenar por montos mayores");
+            Console.WriteLine("2. Ordenar por montos menores");
+            Console.WriteLine("3. Salir");
+            Console.Write("--> ");
+            opcion = Console.ReadLine();
+
+            switch (opcion)
+            {
+                case "1":
+                    transaccionesCliente.Transacciones.Sort((x, y) => y.Monto.CompareTo(x.Monto));
+                    MostrarTransacciones(transaccionesCliente, Usuario);
+                    break;
+                case "2":
+                    transaccionesCliente.Transacciones.Sort((x, y) => x.Monto.CompareTo(y.Monto));
+                    MostrarTransacciones(transaccionesCliente, Usuario);
+                    break;
+                case "3":
+                    break;
+                default:
+                    MostrarTransacciones(transaccionesCliente, Usuario);
+                    break;
+            }
+        } while (opcion != "3");
+    }
+
+    private static void MostrarTransacciones(TransaccionesCliente transaccionesCliente, Usuario? Usuario)
+    {
+        Interfaz.MostrarHeader(); // HEADER
+        Console.WriteLine($"\nTitular:  {Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}\n");
+        Console.WriteLine($"\n💳 Cuenta: {Usuario?.tarjetaDebito}\n");
+        Console.WriteLine($"\n📃 Historial de transacciones");
+        Console.WriteLine($"📃 Fecha \t\t📋 Tipo \t\t💵 Monto");
+        foreach (var transaccion in transaccionesCliente.Transacciones)
+        {
+            Console.WriteLine($"📃 {transaccion.Fecha} \t📋 {transaccion.Tipo} \t💵 ${transaccion.Monto}");
+        }
+    }
 
 }

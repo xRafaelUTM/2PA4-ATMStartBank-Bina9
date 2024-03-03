@@ -2,15 +2,13 @@
 ╔════════════════════════════╗
 ║      💵   ATM SARTBANK   💵      ║
 ╚════════════════════════════╝
-    
-        📃 PAGO DE SERVICIO 📃
 
-📆 Fecha:   02/03/2024 18:47:33
+        📃 RETIRO DE EFECTIVO 📃
+
+📆 Fecha:   03/03/2024 16:17:43
 🧑 Titular:  Mario Rafael Solis Suarez
 💳 Tarjeta: 5786709677231470
-🧾 Pago hipotecario 🏠
-💲 Tipo de pago: Transacción
-💰 Importe: $5,000.00
+💰 Monto: $8,950.00
 
         *CUALQUIER ACLARACION ACUDE
         CON TU RAFITA MAS CERCANO*

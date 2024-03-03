@@ -203,7 +203,70 @@ public class Usuario
             conexionBD.CerrarConexion();
         }
     }
-    
+
+    public void InsertarDespositoHistorial(string fechaFormatoHistoriar, decimal importe)
+    {
+        var conexionBD = new ConexionBD();
+
+        // Actualizar un saldo UPDATE
+        try
+        {
+            string Query = $"INSERT INTO transaccionesCliente{Id} (id_usuario, fecha, tipo, monto) VALUES ({Id}, '{fechaFormatoHistoriar}', 'Deposito', {importe});"; 
+            var cmd = new SqlCommand(Query, conexionBD.AbrirConexion());
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+        finally
+        {
+            conexionBD.CerrarConexion();
+        }
+    }
+
+    public void InsertarPagoHistorial(string fechaFormatoHistoriar, decimal importe, Tuple<string, string> servicioSeleccionado, string? TipoDePago)
+    {
+        var conexionBD = new ConexionBD();
+
+        // Actualizar un saldo UPDATE
+        try
+        {
+            string Query = $"INSERT INTO transaccionesCliente{Id} (id_usuario, fecha, tipo, monto) VALUES ({Id}, '{fechaFormatoHistoriar}', '[{TipoDePago}]Pago {servicioSeleccionado.Item1}', {importe});"; 
+            var cmd = new SqlCommand(Query, conexionBD.AbrirConexion());
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+        finally
+        {
+            conexionBD.CerrarConexion();
+        }
+    }
+
+    public void InsertarRetiroHistorial(string fechaFormatoHistoriar, decimal montoRetiro)
+    {
+        var conexionBD = new ConexionBD();
+
+        // Actualizar un saldo UPDATE
+        try
+        {
+            string Query = $"INSERT INTO transaccionesCliente{Id} (id_usuario, fecha, tipo, monto) VALUES ({Id}, '{fechaFormatoHistoriar}', 'Retiro', {montoRetiro});"; 
+            var cmd = new SqlCommand(Query, conexionBD.AbrirConexion());
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+        finally
+        {
+            conexionBD.CerrarConexion();
+        }
+    }
+
 
     public int id {get => Id; set => Id = value;}
     public string? nombres {get => Nombres; set => Nombres = value;}

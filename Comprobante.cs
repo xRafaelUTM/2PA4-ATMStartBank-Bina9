@@ -1,6 +1,6 @@
 using System.Data.SqlClient;
 using System.Runtime.Serialization;
-using System.IO;
+using System.IO;        
 using ATMStartBank;
 using System.Text;
 using System.Collections.Generic;
@@ -9,7 +9,9 @@ public static class Comprobante
 {
     public static void ComprobanteDepositos(Usuario? Usuario, decimal importe, string? motivo)
     {
-        
+        string fechaFormatoHistoriar = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");  
+        Usuario?.InsertarDespositoHistorial(fechaFormatoHistoriar, importe);
+
         string fecha = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
 
         TextWriter comprobanteDeposito = new StreamWriter($"./comprobantes/Comprobante-{fecha}--IDCliente-{Usuario?.id}-.txt");
@@ -49,6 +51,9 @@ public static class Comprobante
 
                 
         }
+        string fechaFormatoHistoriar = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");  
+        Usuario?.InsertarPagoHistorial(fechaFormatoHistoriar, importe, servicioSeleccionado, TipoDePago);
+        
         string fecha = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
 
         TextWriter comprobanteDeposito = new StreamWriter($"./comprobantes/Comprobante-{fecha}--IDCliente-{Usuario?.id}-.txt");
@@ -80,6 +85,8 @@ public static class Comprobante
 
         public static void ComprobanteRetiro(Usuario? Usuario, decimal montoRetiro)
         {
+                string fechaFormatoHistoriar = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");  
+                Usuario?.InsertarRetiroHistorial(fechaFormatoHistoriar, montoRetiro);
                 
                 string fecha = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
 

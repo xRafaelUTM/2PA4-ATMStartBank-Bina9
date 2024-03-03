@@ -8,7 +8,7 @@ def leer_codigo_barras():
     cap.set(3, 640)  #Ancho
     cap.set(4, 480)  #Alto
 
-    #Bucle para leer los 
+    #Bucle para leer los FRAMES 
     while True:
         success, frame = cap.read()
         if not success:
