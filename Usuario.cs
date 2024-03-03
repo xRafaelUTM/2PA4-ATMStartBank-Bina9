@@ -180,6 +180,29 @@ public class Usuario
             conexionBD.CerrarConexion();
         }
     }
+
+    public void NIPUptade(int NuevoPin)
+    {
+        var conexionBD = new ConexionBD();
+        
+        PinTarjeta = NuevoPin;
+
+        // Actualizar un saldo UPDATE
+        try
+        {
+            string Query = $"UPDATE clientesCuenta SET pinTarjeta = {NuevoPin} WHERE id = {Id}"; 
+            var cmd = new SqlCommand(Query, conexionBD.AbrirConexion());
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+        finally
+        {
+            conexionBD.CerrarConexion();
+        }
+    }
     
 
     public int id {get => Id; set => Id = value;}

@@ -61,7 +61,7 @@ class Retirar
                     Console.WriteLine("\n🚫 El usuario ha cancelado la operación.");
                     return;
                 case "+":
-                    MostrarMenuOpciones(Usuario, Atm);
+                    MostrarMenuOpciones(Usuario);
                     return;
                 default:
                     if (decimal.TryParse(input, out decimal montoRetiro) && montoRetiro > 0)
@@ -163,7 +163,7 @@ class Retirar
     }
 
 
-    public static void MostrarMenuOpciones(Usuario? Usuario, Atm? Atm)
+    public static void MostrarMenuOpciones(Usuario? Usuario)
     {
         Interfaz.MostrarHeader(); // HEADER
         Console.WriteLine($"\nTitular:  {Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}\n");
@@ -172,21 +172,82 @@ class Retirar
         Console.WriteLine("2. 💸 Cambiar NIP");
         Console.WriteLine("3. ❌ Salir");
         Console.Write("--> ");
-        string? opcion = Console.ReadLine();
 
-        switch (opcion)
+        while (true)
         {
-            case "1":
-                // Aquí se implementaría la lógica para mostrar los movimientos
-                Console.WriteLine("\nMostrando movimientos...");
-                break;
-            case "2":
-                // Aquí se implementaría la lógica para cambiar el NIP
-                Console.WriteLine("\nCambio de NIP...");
-                break;
-            default:
-                Console.WriteLine("\nOpción no válida.");
-                break;
+            string? opcion = Console.ReadLine();
+
+            switch (opcion)
+            {
+                case "1":
+                    // Aquí se implementaría la lógica para mostrar los movimientos
+                    Console.WriteLine("\nMostrando movimientos...");
+                    return;
+                case "2":
+                    //Cambiar el NIP
+                    CambiarNip(Usuario);
+                    return;
+
+                case "3":
+                    return;
+            
+                default:
+                    Console.WriteLine("\nOpción no válida.");
+                    break;
+            }
+            return;
+            
+        }
+        
+    }
+    public static void CambiarNip(Usuario? Usuario)
+    {
+        Interfaz.MostrarHeader(); // HEADER
+        Console.WriteLine($"\nPor seguridad, recuerde su NIP al momento de cambiarlo.\n");
+        Console.WriteLine($"\nTitular:  {Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}\n");
+        Console.WriteLine($"\n💳 Cuenta: {Usuario?.tarjetaDebito}\n");
+        Console.Write("\nIngrese su nuevo NIP [Para cancelar ingrese *]\n--> ");
+        int NuevoPin;
+        while (true)
+        {
+            string? input = Console.ReadLine();
+
+            if (input == "*")
+            {
+                Console.WriteLine("\n🚫 El usuario ha cancelado la operación.");
+                return; // Salir hacia el main
+            }
+            if (!string.IsNullOrWhiteSpace(input) && Validaciones.ValidarNuevoNip(Usuario, input, out NuevoPin))
+            {
+                Interfaz.MostrarHeader(); // HEADER
+                Console.WriteLine($"\nPor seguridad, recuerde su NIP al momento de cambiarlo.\n");
+                Console.WriteLine($"\nTitular:  {Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}\n");
+                Console.WriteLine($"\n💳 Cuenta: {Usuario?.tarjetaDebito}\n");
+                Console.Write("❕ ¿Estas seguro de cambiar tu NIP?. \n1.[✅ Continuar] // 2.[❌ Cancelar operación]\n--> ");
+                while (true)
+                {
+                    switch (Console.ReadLine())
+                    {
+                        case "1":
+                        Usuario?.NIPUptade(NuevoPin);
+                        Console.WriteLine("\n✅ Su NIP se ha actualizado. ✅");
+                        return;
+
+                        case "2":
+                        Console.WriteLine("\n🚫 El usuario ha cancelado la operación.");
+                        return;   
+                        
+                        default:
+                        Console.Write("\n🚫 Opción no valida, intente de nuevo.\n--> ");
+                        break;
+                    }
+                    
+                }
+            }
+            else
+            {
+                Console.Write("🚫 Error, intente de nuevo. \n--> ");
+            }
         }
     }
 

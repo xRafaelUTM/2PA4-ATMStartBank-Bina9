@@ -179,5 +179,41 @@ public class Validaciones
             }
         }
     }
+    public static bool ValidarNuevoNip(Usuario? Usuario, string input, out int NuevoPin)
+    {
+        NuevoPin = 0;
+
+        try
+        {
+            NuevoPin = Convert.ToInt32(input);
+            if (NuevoPin == Usuario?.pinTarjeta)
+            {
+                Console.WriteLine("⚠️  El NIP nuevo es el mismo que intenta cambiar, intente de nuevo.");
+            }
+            else if (input.Length != 4)
+            {
+                Console.WriteLine("⚠️  El NIP debe contener solo 4 dígitos, intente de nuevo.\n--> ");
+            }
+            else
+            {
+                return true;
+            }   
+        }
+        catch (FormatException)
+        {
+            Console.Write("⚠️  Formato incorrecto. Por favor, ingrese un NIP válido.\n--> ");
+        }
+        catch (OverflowException)
+        {
+            Console.Write("⚠️  El NIP ingresado es demasiado grande o demasiado pequeño. Por favor, ingrese un NIP válido.\n--> ");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"⚠️ Error: {ex.Message}");
+        }
+
+        
+        return false;
+    }
 
 }
