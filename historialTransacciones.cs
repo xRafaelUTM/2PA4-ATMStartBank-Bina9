@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using ATMStartBank;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text;
+
 
 public class TransaccionesCliente
 {

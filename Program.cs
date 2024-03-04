@@ -1,20 +1,17 @@
-using System.Data.SqlClient;
-using System.Runtime.Serialization;
-using System.IO;
-using ATMStartBank;
 using System.Text;
-using System.Collections.Generic;
 
 namespace ATMStartBank;
 
 class Program
 {
+    public static int contador;
     static void Main(string[] args)
     {
         Console.OutputEncoding = Encoding.UTF8;
 
         while (true)
         {
+            contador = 0;
             Console.Clear();
             Usuario? Usuario = Usuario.CrearUsuario(); //GENERA UN USUARIO SEGUN SU ID
             Atm? Atm = Atm.EfectivoInicio(); //Trae el efectivo del banco
@@ -23,7 +20,17 @@ class Program
             bool salir = false;
             while (!salir)
             {
-
+                if (Program.contador == 5)
+                {
+                    Interfaz.MostrarHeader(); // HEADER
+                    Console.WriteLine($"\n{Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}\n");
+                    Console.WriteLine("\t🌟 Ha alcanzado el maximo de movimientos... [ENTER] 🌟\n");
+                    Console.ReadKey();
+                    break;
+                    
+                }
+                else
+                {
                 Interfaz.MostrarHeader(); // HEADER
                 Console.WriteLine($"\nBienvenido {Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}\n");
                 
@@ -62,6 +69,7 @@ class Program
                 {
                     Console.WriteLine("\nPresiona cualquier tecla para volver al menú...");
                     Console.ReadKey();
+                }
                 }
 
             }

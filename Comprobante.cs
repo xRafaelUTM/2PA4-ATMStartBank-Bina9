@@ -1,14 +1,11 @@
-using System.Data.SqlClient;
-using System.Runtime.Serialization;
-using System.IO;        
 using ATMStartBank;
-using System.Text;
-using System.Collections.Generic;
+
 
 public static class Comprobante
 {
     public static void ComprobanteDepositos(Usuario? Usuario, decimal importe, string? motivo)
     {
+        Program.contador ++;
         string fechaFormatoHistoriar = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");  
         Usuario?.InsertarDespositoHistorial(fechaFormatoHistoriar, importe);
 
@@ -40,6 +37,7 @@ public static class Comprobante
 
     public static void ComprobantePagos(Usuario? Usuario, decimal importe, Tuple<string, string> servicioSeleccionado, bool tipo)
     {
+        Program.contador ++;
         string? TipoDePago;
         if (tipo == true)
         {
@@ -85,6 +83,7 @@ public static class Comprobante
 
         public static void ComprobanteRetiro(Usuario? Usuario, decimal montoRetiro)
         {
+                Program.contador ++;
                 string fechaFormatoHistoriar = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");  
                 Usuario?.InsertarRetiroHistorial(fechaFormatoHistoriar, montoRetiro);
                 
