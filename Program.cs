@@ -24,7 +24,7 @@ class Program
                 {
                     Interfaz.MostrarHeader(); // HEADER
                     Console.WriteLine($"\n{Usuario?.nombres} {Usuario?.apellidoPaterno} {Usuario?.apellidoMaterno}\n");
-                    Console.WriteLine("\t🌟 Ha alcanzado el maximo de movimientos... [ENTER] 🌟\n");
+                    Console.WriteLine("\t🌟 Ha alcanzado el maximo de movimientos... [ENTER PARA SALIR] 🌟\n");
                     Console.ReadKey();
                     break;
                     

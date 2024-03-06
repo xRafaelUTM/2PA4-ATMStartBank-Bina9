@@ -1,6 +1,6 @@
 using ATMStartBank;
 
-class Retirar
+class Retirar : Validaciones
 {
     public static void IngresarIRetiro(Usuario? Usuario, Atm? Atm)
     {
